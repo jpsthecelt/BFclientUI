@@ -7,4 +7,4 @@ These are 'as is' and unsupported, although you can probably post general questi
 Note that the sha1 checksum in the .bes file must match the __UISupport.tmp file, and must be placed in the 
 Server directory: C:\Program Files (x86)\BigFix Enterprise\BES Server\wwwrootbes\Uploads\<sha1>\__UISupport.tmp
 
-[there's a sha1 tool that will calculate this checksum using 'sha1 -r <file>'. Tool is available from support.bigfix.com utilities]
+[there's a sha1 tool that will calculate this checksum using 'sha1 -r <file>'. Tool is available from support.bigfix.com utilities; you'll also need the bfarchive.exe tool to do the compression into __UISupport.tmp]
