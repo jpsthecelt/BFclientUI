@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="dashboard.css">
+<script type="text/javascript" src="dashboard.js"></script>
+</head>
+
+<body>
+	<div class="header">
+		<div style="clear: none">
+			<h1 style="margin-bottom:.5em">UCSF Workstation Power Monitoring</h1>
+			<p>Your workstation is now participating in the UCSF Workstation Power Management program. If you have questions, comments or concerns about this program please email them to: powermanagement@ucsf.edu Thank you for helping UCSF save energy and associated costs,
+ as well as reducing our carbon emissions. </p>
+ <br><p>Current Power Scheme:<?Relevance if name of operating system = "Mac OS X" then (if exists file "/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist"then ((if it = 3 then "Better Performance" else (if it = 2 then "Normal" else (if it = 1 then "Better Energy Savings" else "Custom" )) ) of integer "AC Power" of  dictionary "ActivePowerProfiles"  of dictionary of it) of file "/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist" else "Normal")   else if (name of operating system = "WinVista") then (if (value "FriendlyName" of key ("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\" & (value "ActivePowerScheme" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes" of registry as string)) of registry as string) contains "," then (following text of last "," of preceding text of first "%00" of (value "FriendlyName" of key ("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\" & (value "ActivePowerScheme" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes" of registry as string)) of registry as string)) else (preceding text of first "%00" of (value "FriendlyName" of key ("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes\" & (value "ActivePowerScheme" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes" of registry as string)) of registry as string))) else ((if ( exists current user) then ((value "name" of key ("Control Panel\PowerCfg\PowerPolicies\" & value "CurrentPowerPolicy" of key "Control Panel\PowerCfg" of it as string) of it as string ) of (key ("HKEY_USERS\" & (name of key whose (name of it as lowercase != ".default" AND name of it as lowercase != "s-1-5-18" AND name of it as lowercase != "s-1-5-19" AND name of it as lowercase != "s-1-5-20" AND value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it as string as lowercase = (if exists first "\" of (value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it as string) then (preceding text of first "\" of (value "Logon User Name" of key "Software\Microsoft\Windows\CurrentVersion\Explorer" of it as string as lowercase) & "\" & name of current user as string as lowercase) else (name of current user as string as lowercase))) of key "HKEY_USERS" of registry)) of registry) ) else ("No Login User"))) ?></p><br><br>
+			<span style="margin-top: .5em">Powered by BigFix<br>
+			<font size="1">Page last updated: <?relevance now ?> <a class="refresh" href="cid:load?page=_dashboard.html">  Refresh</a></font></span>
+		</div>
+	</div>
+	
+	<div class="contents" style="clear: both">
+	
+	<div class='section' id='StatusSection' style=''>
+		<h2 class='sectionHeader'><img alt="" class='collapse' src='collapse.gif' onclick='ToggleSectionVisibility()'>Computer Information</h2>
+		<div class='sectionBody'>
+		<div class='sectionContents' id='Status' style=''>
+		<div class='subsection'>
+			<table class='statustable' cellspacing='1px' align="center">
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Computer Name</nobr></p></td>  
+					<td class='' width="100%"><p><nobr><?relevance computer name ?></nobr></p></td>  
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Operating System</nobr></p></td>
+					<td><p><?Relevance (if (it contains "%99" or it contains "%ae") then ((preceding text of substring "%99" of it & following text of substring "%99" of it) of (preceding text of substring "%ae" of it & following text of substring "%ae" of it)) else (it)) of (if (exists wmi AND (not (name of operating system = "WinME" ))) then (string value of selects "caption from win32_operatingsystem" of wmi as trimmed string & " " & csd version of operating system) else ( "Windows " & (following text of first "Win" of (name of operating system as string)) & (if (name of operating system = "WinNT" ) then ((if (exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions" whose (exists value "ProductType" of it AND (value "ProductType" of it as string as lowercase = "servernt" OR value "ProductType" of it as string as lowercase = "lanmannt" )) of registry) then (if (exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions" whose (exists value "ProductSuite" of it AND value "ProductSuite" of it as string as lowercase contains "terminal" ) of registry) then " Terminal Server" else " Server" ) else " Workstation" ) & " " & csd version of operating system) else (if (name of operating system = "Win98" ) then (if (csd version of operating system as string contains "A" ) then " Second Edition" else "" ) else (if (name of operating system = "Win95" ) then (if (csd version of operating system as string contains "C" OR csd version of operating system as string contains "B" ) then " OSR2" else "" ) else "" ))))) ?></p></td>
+				</tr>
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>CPU</nobr></p></td>
+					<td><p><?Relevance unique values of brand strings of processors ?></p></td>
+				</tr>
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Memory</nobr></p></td>
+					<td><p><?Relevance (if (it > 128) then ( ((it / 32) * 32) + (if (it mod 32 > 16) then 32 else 0) ) else it) of (size of ram / (1024*1024)) as string & " MB" ?></p></td>
+				</tr>
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Hard Disks</nobr></p></td>
+					<td><p><?Relevance concatenation (html "<br>") of (name of it & " " & (total space of it / 1000 / 1000) as string & " MB (" & (free space of it * 100 / total space of it) as string & " percent free)") of drives whose (type of it = "DRIVE_FIXED")?></p></td>
+				</tr>
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>IP Address</nobr></p></td>
+					<td><p><?Relevance concatenation (html "<br>") of (addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)?></p></td>
+				</tr>
+
+			</table>
+		</div>
+		</div>
+		</div>
+	</div>
+	
+</div>
+
+</body>
+</html>

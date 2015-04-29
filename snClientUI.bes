@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+	<Task>
+		<Title>SN  Mgt ClientUI Dashboard</Title>
+		<Description><![CDATA[This task will deploy: Enable SN  Client Dashboard.<BR><BR>This task is applicable on: Windows 2000, Windows XP, Windows 2003, Windows Vista and Windows 2008. ]]></Description>
+		<Relevance>(name of operating system = "Win2000" OR name of operating system = "WinXP" OR name of operating system = "Win2003" OR (name of it = "WinVista" and product type of it = nt workstation product type) of operating system OR (name of it = "Win2008" or (name of it = "WinVista" and product type of it != nt workstation product type)) of operating system) AND TRUE</Relevance>
+		<Category>Software Distribution</Category>
+		<DownloadSize>12209</DownloadSize>
+		<Source>Software Distribution Wizard</Source>
+		<SourceReleaseDate>2009-06-12</SourceReleaseDate>
+		<DefaultAction ID="Action1">
+			<Description>
+				<PreLink>Click </PreLink>
+				<Link>here </Link>
+				<PostLink>to initiate the deployment process. </PostLink>
+			</Description>
+			<ActionScript MIMEType="application/x-Fixlet-Windows-Shell"><![CDATA[setting "_BESClient_ActionManager_TrayMode"="AlwaysTray" on "{parameter "action issue date" of action}" for client
+
+setting "_BESClient_ActionManager_HasMainDialog"="1" on "{parameter "action issue date" of action}" for client
+
+download http://grasskeet:52311/Uploads/92b356fca9cdf5a5eb65dc4e097d3e6c3b0f38e3/__UISupport.tmp
+continue if {(size of it = 12673 AND sha1 of it = "92b356fca9cdf5a5eb65dc4e097d3e6c3b0f38e3") of file "__UISupport.tmp" of folder "__Download"}
+
+extract __UISupport.tmp
+
+// Create directory __UISupport and copy the files downloaded to the directory
+delete __appendfile 
+delete ui_install.bat 
+appendfile @ECHO OFF 
+appendfile del /F /Q "{pathname of parent folder of client folder of site "actionsite"}\__UISupport\*.*" > NUL 2>NUL
+appendfile mkdir "{pathname of parent folder of client folder of site "actionsite"}\__UISupport" > NUL 2>NUL
+appendfile copy "__Download\*.*"  "{pathname of parent folder of client folder of site "actionsite"}\__UISupport" > NUL 2>NUL
+move __appendfile ui_install.bat 
+waithidden ui_install.bat  
+// ---------------
+
+if {name of operating system does not contain "Win9" AND name of operating system != "WinME"}
+delete __appendfile
+     appendfile net stop BESClient
+     appendfile net start BESClient
+     delete clientRestart.bat
+     copy __appendfile clientRestart.bat
+     runhidden clientRestart.bat
+else
+     action requires restart
+endif]]></ActionScript>
+			<SuccessCriteria Option="RunToCompletion"></SuccessCriteria>
+		</DefaultAction>
+	</Task>
+</BES>

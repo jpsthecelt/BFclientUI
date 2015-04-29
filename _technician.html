@@ -1,0 +1,489 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="dashboard.css">
+<script type="text/javascript" src="dashboard.js"></script>
+<script type="text/javascript" src="sNowissueRequest.js"></script>
+</head>
+
+<body>
+<div id='theDataStore'>
+<div id='fixletIdRelevance'>
+<?Relevance (preceding text of first %22.fxf%22 of following text of first %22 %22 of name of files whose (name of it contains %22.fxf%22 and exists line whose (it contains %22snCreateIncident%22) of it) of client folder of  site %22actionsite%22) as integer ?>
+</div>
+<div id='fixletBody'>
+<BES xmlns:xsi=%22http://www.w3.org/2001/XMLSchema-instance%22 xsi:noNamespaceSchemaLocation=%22BES.xsd%22>
+       <SourcedFixletAction>
+               <SourceFixlet>
+                       <Sitename>ActionSite</Sitename>
+                       <FixletID>%%fixletid</FixletID>
+                       <Action>Action1</Action>
+               </SourceFixlet>
+               <Target>
+                       <ComputerName>%%servername</ComputerName>
+               </Target>
+       </SourcedFixletAction>
+</BES>
+</div>
+</div>
+	<div class="techheader" id="testheader">
+		<div style="clear: none">
+			<h1 style="margin-bottom: .5em">Detailed Computer Information</h1>
+			<span style="margin-top: .5em">Technician Mode - Powered by BigFix<br>
+			<font size="1">Page last refreshed: <?relevance now ?> <a class="refresh" href="cid:load?page=_technician.html">  Refresh</a></font></span>
+		</div>
+	</div>
+	
+	<div class="contents" style="clear: both">
+	
+	<div class='section' id='StatusSection' style=''>
+		<h2 class='sectionHeader'><img alt="" class='collapse' src='collapse.gif' onclick='ToggleSectionVisibility()'>Computer Information</h2>
+		<div class='sectionBody'>
+		<div class='sectionContents' id='Status' style=''>
+		<div class='subsection'>
+			<table class='statustable' cellspacing='1px' align="center">
+			
+				<!-- ===== Computer System ================================================================================================================================================= -->
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Computer System</nobr></p></td>
+					<td class='' width="100%"><p><nobr>&nbsp;</nobr></p></td> 
+				</tr>
+				
+				<tr>
+					<td>
+						<table class="inner">
+							<tr>
+								<td><p>Computer Name:</p></td>
+							</tr>
+							<tr>
+								<td><p>System Model:</p></td>
+							</tr>
+							<tr>
+								<td><p>Service Tag:</p></td>
+							</tr>
+							<tr>
+								<td><p>Serial Number:</p></td>
+							</tr>
+							<tr>
+								<td><p>Motherboard:</p></td>
+							</tr>
+							<tr>
+								<td><p>Display Adapter:</p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p>Display Monitor:</p></td>
+							</tr>
+						</table>
+					</td>
+					
+					<td class='' width="100%">
+						<table class="inner">
+							<tr>
+								<td><p><?Relevance computer name ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) then (string value of select "Manufacturer from Win32_ComputerSystem" of wmi as right trimmed string) & " " & (string value of select "Model from Win32_ComputerSystem" of wmi as right trimmed string) else "<none>" ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if exists (first "=" of (select "SerialNumber from Win32_BIOS" of wmi as string)) then (if (length of following text of first "=" of ((select "SerialNumber from Win32_BIOS" of wmi) as string as right trimmed string)) > 0 then (string value of select "SerialNumber from Win32_BIOS" of wmi as right trimmed string) else "<none>") else "<none>" ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists select "SerialNumber from Win32_BaseBoard" of wmi and exists first "=" of (select "SerialNumber from Win32_BaseBoard" of wmi as string)) then (if (length of following text of first "=" of ((select "SerialNumber from Win32_BaseBoard" of wmi) as string as right trimmed string)) > 0 then (string value of select "SerialNumber from Win32_BaseBoard" of wmi as right trimmed string) else "<none>") else "<none>" ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi and exists select "Manufacturer from Win32_BaseBoard" of wmi) then (string value of select "Manufacturer from Win32_BaseBoard" of wmi as right trimmed string) & " " & (string value of select "Product from Win32_BaseBoard" of wmi as right trimmed string) else "<none>" ?></p></td>
+							</tr>
+							
+							<tr>
+								<td><p><?Relevance if (exists wmi) then (string values of selects "Name from Win32_VideoController" of wmi) else ("<none>") ?></p></td>
+							</tr>
+
+							<tr>
+								<td class="lastrow"><p><?Relevance if (exists key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\DISPLAY" of registry) then (concatenation (html "<br>") of (value "Mfg" of it as string & " " & value "DeviceDesc" of it as string & " " & ("Model: " & (if ((last 8 of first 188 of (value "EDID" of key "Device Parameters" of it as string)="000000fc")) then (hexadecimal string (last 22 of first 212 of (value "EDID" of key "Device Parameters" of it as string))) else "not available")) & " " & ("S/N: " & (if ((last 8 of first 152 of (value "EDID" of key "Device Parameters" of it as string) = "000000ff")) then (hexadecimal string (last 24 of first 178 of (value "EDID" of key "Device Parameters" of it as string))) else "not available"))) of keys whose ((exists key "Control" of it) and (exists key "Device Parameters" of it) and (exists value "EDID" of key "Device Parameters" of it)) of keys whose (name of it does not contain "Default_Monitor") of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\DISPLAY" of registry) else "<none>" as html ?></p></td>
+							</tr>
+						</table>					
+				</tr>
+			
+					
+				<!-- ===== Operating System ================================================================================================================================================= -->					
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Operating System</nobr></p></td>
+					<td class='' width="100%"><p><nobr>&nbsp;</nobr></p></td> 
+				</tr>
+				
+				<tr>
+					<td>
+						<table class="inner">
+							<tr>
+								<td><p>Name:</p></td>
+							</tr>
+							<tr>
+								<td><p>Version:</p></td>
+							</tr>
+							<tr>
+								<td><p>Product ID:</p></td>
+							</tr>
+							<tr>
+								<td><p>Registered User:</p></td>
+							</tr>
+							<tr>
+								<td><p>Installation Date:</p></td>
+							</tr>
+							<tr>
+								<td><p>Uptime:</p></td>
+							</tr>
+							<tr>
+								<td><p>Last Boot Up Time:</p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p>Language:</p></td>
+							</tr>
+						</table>
+					</td>
+					
+					<td class='' width="100%">
+						<table class="inner">
+							<tr>
+								<td><p><?Relevance if (exists wmi) then ((string value of select "Caption from Win32_OperatingSystem" of wmi as right trimmed string) & " " & (if exists (first "=" of (select "CSDVersion from Win32_OperatingSystem" of wmi as string)) then (string value of select "CSDVersion from Win32_OperatingSystem" of wmi) & " " else "") & "(Build " & (if exists (first "=" of (select "BuildNumber from Win32_OperatingSystem" of wmi as string)) then (string value of select "BuildNumber from Win32_OperatingSystem" of wmi) else "") & ")") else "<none>" ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) then (string value of select "Version from Win32_OperatingSystem" of wmi) else "<none>" ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) then (string value of select "SerialNumber from Win32_OperatingSystem" of wmi) else "<none>" ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance  if (exists wmi) then (string value of select "RegisteredUser from Win32_OperatingSystem" of wmi) else "<none>" ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance  if (exists wmi AND exists selects "InstallDate from win32_operatingsystem" of wmi AND not ((string value of selects "InstallDate from win32_operatingsystem" of wmi) = "")) then ((first 4 of (first 8 of string value of (selects "InstallDate from Win32_OperatingSystem" of wmi))) & "-" & (first 2 of (last 4 of (first 8 of string value of (selects "InstallDate from Win32_OperatingSystem" of wmi)))) & "-" & (last 2 of (first 8 of string value of (selects "InstallDate from Win32_OperatingSystem" of wmi)))) else ("<none>") ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance (if it = 1 then it as string & " day" else it as string & " days") of ((uptime of operating system) / day) ?></p></td>
+							</tr> 
+							<tr>
+								<td><p><?Relevance if (exists wmi AND exists selects "LastBootUpTime from win32_operatingsystem" of wmi AND not ((string value of selects "LastBootUpTime from win32_operatingsystem" of wmi) = "")) then ((first 4 of (first 8 of string value of (selects "LastBootUpTime from Win32_OperatingSystem" of wmi))) & "-" & (first 2 of (last 4 of (first 8 of string value of (selects "LastBootUpTime from Win32_OperatingSystem" of wmi)))) & "-" & (last 2 of (first 8 of string value of (selects "LastBootUpTime from Win32_OperatingSystem" of wmi)))) else ("<none>") ?></p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p><?Relevance language of version block of file "kernel32.dll" of system folder & (if (exists key "HKLM\System\CurrentControlSet\Control\Nls\MUILanguages" of registry AND exists value of key "HKLM\System\CurrentControlSet\Control\Nls\MUILanguages" of registry) then " - MUI Installed" else "") ?></p></td>
+							</tr>
+
+						</table>					
+				</tr>
+
+				<!-- ===== CPU ================================================================================================================================================= -->				
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>CPU</nobr></p></td>
+					<td class='' width="100%"><p><nobr>&nbsp;</nobr></p></td> 
+				</tr>
+				
+				<tr>
+					<td>
+						<table class="inner">
+							<tr>
+								<td><p>Name:</p></td>
+							</tr>
+							<tr>
+								<td><p>Number of Processors:</p></td>
+							</tr>
+							<tr>
+								<td><p>Vendor:</p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p>Description:</p></td>
+							</tr>
+						</table>
+					</td>
+					
+					<td class='' width="100%">
+						<table class="inner">
+							<tr>
+								<td><p><?Relevance unique values of brand strings of processors ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance number of processors ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance vendor name of main processor ?></p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p><?Relevance if (exists wmi) then (string value of selects "description from win32_processor" of wmi) else "<none>"  ?></p></td>
+							</tr>
+						</table>					
+				</tr>
+			
+				<!-- ===== Memory ================================================================================================================================================= -->
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Memory</nobr></p></td>
+					<td class='' width="100%"><p><nobr>&nbsp;</nobr></p></td> 
+				</tr>
+				
+				<tr>
+					<td>
+						<table class="inner">
+							<tr>
+								<td><p>Current Size:</p></td>
+							</tr>
+							<tr>
+								<td><p>Maximum Installable:</p></td>
+							</tr>
+							<tr>
+								<td><p>Number of Used Slots:</p></td>
+							</tr>
+							<tr>
+								<td><p>Number of Free Slots:</p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p>Total Number of Slots:</p></td>
+							</tr>
+						</table>
+					</td>
+					
+					<td class='' width="100%">
+						<table class="inner">
+							<tr>
+								<td><p><?Relevance (if (it > 128) then (((it/32)*32) + (if (it mod 32 > 16) then 32 else 0) ) else it ) of (size of ram / (1024*1024)) as string & " MB" ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) then (((it as integer/1024) as string & " MB") of (string values of selects "MaxCapacity from Win32_PhysicalMemoryArray where Use='3'" of wmi)) else ("N/A") ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) then ((number of (selects "DeviceLocator from Win32_PhysicalMemory where MemoryType!='11'" of wmi) as string)) else ("N/A") ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) then (((string value of selects "MemoryDevices from Win32_PhysicalMemoryArray where Use='3'" of wmi) as integer - (number of (selects "DeviceLocator from Win32_PhysicalMemory where MemoryType!='11'" of wmi))) as string) else ("N/A") ?></p></td>
+							</tr>
+
+							<tr>
+								<td class="lastrow"><p><?Relevance if (exists wmi) then (string value of selects "MemoryDevices from Win32_PhysicalMemoryArray where Use='3'" of wmi as string) else ("N/A") ?></p></td>
+							</tr>
+						</table>					
+				</tr>
+
+				<!-- ===== Network ================================================================================================================================================= -->
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Network</nobr></p></td>
+					<td class='' width="100%"><p><nobr>&nbsp;</nobr></p></td> 
+				</tr>
+				
+				<tr>
+					<td>
+						<table class="inner">
+							<tr>
+								<td><p>IP Address:<?relevance html "<br>" & concatenation (html "<br>") of "" of (addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string) ?></p></td>
+							</tr>
+							<tr>
+								<td><p>MAC Address:<?relevance html "<br>" & concatenation (html "<br>") of "" of ((mac addresses of adapters of network) as string) ?></p></td>
+							</tr>
+							<tr>
+								<td><p>Subnet Address:<?relevance html "<br>" & concatenation (html "<br>") of "" of ((subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) as string) ?></p></td>
+							</tr>
+							<tr>
+								<td><p>Subnet Mask:<?relevance html "<br>" & concatenation (html "<br>") of "" of ((subnet masks of ip interfaces whose (loopback of it = false) of network) as string) ?> </p></td>
+							</tr>
+							<tr>
+								<td><p>DNS Server:<?relevance html "<br>" & concatenation (html "<br>") of "" of ((addresses of dns servers of network) as string) ?></p></td>
+							</tr>
+							<tr>
+								<td><p>DHCP Server:<?relevance if (exists adapter whose (address of it != "0.0.0.0" AND dhcp enabled of it) of network) then (html "<br>" & concatenation (html "<br>") of "" of (dhcp servers of adapters whose (address of it != "0.0.0.0") of network as string)) else "" as html ?></p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p>Network Adapter:<br></p></td>
+							</tr>
+						</table>
+					</td>
+					
+					<td class='' width="100%">
+						<table class="inner">
+							<tr>
+								<td><p><?Relevance concatenation (html "<br>") of (addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network as string)?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance concatenation (html "<br>") of ((mac addresses of adapters of network) as string) ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance concatenation (html "<br>") of ((subnet addresses whose (it as string != "0.0.0.0") of ip interfaces whose (loopback of it = false) of network) as string) ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance concatenation (html "<br>") of ((subnet masks of ip interfaces whose (loopback of it = false) of network) as string) ?></p></td>
+							</tr>	
+							<tr>
+								<td><p><?Relevance concatenation (html "<br>") of ((addresses of dns servers of network) as string) ?></p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists adapter whose (address of it != "0.0.0.0" AND dhcp enabled of it) of network) then (concatenation (html "<br>") of (dhcp servers of adapters whose (address of it != "0.0.0.0") of network as string)) else "n/a (Static IP)" as html  ?></p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p><?Relevance concatenation (html "<br>") of (((description of it as string & (if (name of it as right trimmed string=("{" & (following text of first "{" of preceding text of first "}" of (value "Bind" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Linkage" of registry as string)) & "}")) then " (Primary)" else "") & " (" & address of it as string & ")") of adapters of network) as string) ?></p></td>
+							</tr>
+						</table>					
+				</tr>
+
+				<!-- ===== Hard Disk ================================================================================================================================================= -->
+				<tr>  
+					<td class='name noWordWrap'><p><nobr>Hard Disk</nobr></p></td>
+					<td class='' width="100%"><p><nobr>&nbsp;</nobr></p></td> 
+				</tr>
+				
+				<tr>
+					<td>
+						<table class="inner">
+							<tr>
+								<td><p>Manufacturer (Primary):</p></td>
+							</tr>
+							<tr>
+								<td><p>Size:</p></td>
+							</tr>
+							<tr>
+								<td><p>Model:</p></td>
+							</tr>
+							<tr>
+								<td><p>Serial:</p></td>
+							</tr>
+							<tr>
+								<td><p>Manufacturer (Secondary):</p></td>
+							</tr>
+							<tr>
+								<td><p>Size:</p></td>
+							</tr>
+
+							<tr>
+								<td><p>Model:</p></td>
+							</tr>
+							<tr>
+								<td><p>Serial:</p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p>Summary:</p></td>
+							</tr>
+						</table>
+					</td>
+					
+					<td class='' width="100%">
+						<table class="inner">
+							<tr>
+								<td><p><?Relevance string values of selects "Manufacturer from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE0'" of wmi ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance ((string value of (selects "Size from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE0'" of wmi)) as integer / 1024 / 1024 / 1024) as string & " GB" ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance string values of selects "Model from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE0'" of wmi ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance (string values of (selects "SerialNumber from win32_physicalmedia where tag = '\\\\.\\PHYSICALDRIVE0'" of wmi)) as trimmed string ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) and (exists selects "* from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE1'" of wmi) then string values of selects "Manufacturer from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE1'" of wmi else "<none>" ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) and (exists selects "* from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE1'" of wmi) then((string value of (selects "Size from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE1'" of wmi)) as integer / 1024 / 1024 / 1024) as string & " GB" else "<none>" ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) and (exists selects "* from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE1'" of wmi) then string values of selects "Model from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE1'" of wmi else "<none>"  ?> </p></td>
+							</tr>
+							<tr>
+								<td><p><?Relevance if (exists wmi) and (exists selects "* from win32_diskdrive where deviceid = '\\\\.\\PHYSICALDRIVE1'" of wmi) then (string values of (selects "SerialNumber from win32_physicalmedia where tag = '\\\\.\\PHYSICALDRIVE1'" of wmi)) as trimmed string else "<none>" ?> </p></td>
+							</tr>
+							<tr>
+								<td class="lastrow"><p><?Relevance concatenation (html "<br>") of (name of it & " " & (total space of it / 1000 / 1000) as string & " MB (" & (free space of it * 100 / total space of it) as string & " percent free)") of drives whose (type of it = "DRIVE_FIXED") ?></p></td>
+							</tr>
+						</table>					
+				</tr>
+
+			</table>
+		</div>
+		</div>
+		</div>
+	</div>
+	
+				<!-- ===== Relevant Fixlets ================================================================================================================================================= -->
+	
+	<div class='section' id='StatusSection' style=''>
+		<h2 class='sectionHeader'><img alt="" class='collapse' src='collapse.gif' onclick='ToggleSectionVisibility()'>Relevant Fixlets  <font size="1">(<?Relevance number of relevant fixlets whose (exists value of header "Subject" of it and value of header "Subject" of it does not contain ",") of sites whose (name of it does not contain "actionsite" and name of it does not contain "opsite") ?> items)</font></h2>
+		<div class='sectionBody'>
+		<div class='sectionContents' id='Status' style=''>
+		<div class='subsection'>
+		<h4>The following are all the Fixlets (including Fixlets, Tasks, Analyses and Baselines) that are relevant on the computer.</h4><br>
+			<table id="statustable" class="sortable" cellspacing='1px' align="center">
+				<tr>
+					<td class='name noWordWrap'><p><b>Site</b></p></td>
+					<td class='name noWordWrap'><p><b>Type</b></p></td>
+					<td class='name noWordWrap'><p><b>Source</b></p></td>
+					<td width='100%' class=''><p><b>Name</b></p></td>
+				</tr>
+<?relevance trs of (td of item 0 of it & td of item 0 of item 1 of it & td of item 1 of item 1 of it & td of item 2 of item 1 of it) of (name of it, ((if (exist values of headers "X-Fixlet-Type" of it) then ((first 1 of it as uppercase & following text of first 1 of it as lowercase) of value of header "X-Fixlet-Type" of it) else ("Fixlet")) , (if (exist values of headers "X-Fixlet-Source" of it) then (value of headers "X-Fixlet-Source" of it) else ("BigFix")), value of headers "Subject" of it) of relevant fixlets whose (exists value of header "Subject" of it) of it) of sites whose (name of it does not contain "actionsite" and name of it does not contain "opsite") ?>
+			</table>
+		</div>
+		</div>
+		</div>
+	</div>
+	<div class='section' id='StatusSection' style=''>
+		<h2 class='sectionHeader'><img alt="" class='collapse' src='collapse.gif' onclick='ToggleSectionVisibility()'>Microsoft Security Hotfixes Missing <font size="1">(<?Relevance if (exists site "http://sync.bigfix.com/cgi-bin/bfgather/bessecurity") then (((it as string & (if (it=1) then " item" else " items")) as html) of number of relevant fixlets whose (not exists header "X-Fixlet-Type" of it or value of header "X-Fixlet-Type" of it = "Fixlet") of site "http://sync.bigfix.com/cgi-bin/bfgather/bessecurity") else (html "<font size=1>Not subscribed</font>") ?>)</font></h2>
+		<div class='sectionBody'>
+		<div class='sectionContents' id='Status' style=''>
+		<div class='subsection'>
+		<h4>When necessary, Microsoft provides security updates on the second Tuesday of each month and publishes a bulletin to announce the update. Occasionally, updates are released more often. Listed below are Microsoft security hotfixes that have not been applied on this computer.</h4><br>
+			<table id="statustable" class="sortable" cellspacing='1px' align="center">
+			<!-- <?Relevance if (exists site "http://sync.bigfix.com/cgi-bin/bfgather/bessecurity") then (html "<tr><td class='name noWordWrap'><p><b>ID</b></p></td><td class='name noWordWrap'><p><b>Severity</b></p></td><td class='name noWordWrap'><p><b>Release Date</b></p></td><td width='100%25' class=''><p><b>Security Hotfix</b></p></td></tr>" & concatenation of trs of (td "class=%22name noWordWrap%22" of values of headers "X-Fixlet-Source-ID" of it & td "class=%22name noWordWrap%22" of values of headers "X-Fixlet-Source-Severity" of it &  td "class=%22name noWordWrap%22" of (last 4 of it & "-" & month (last 3 of first 6 of it) as two digits & "-" & first 2 of it) of value of headers "X-Fixlet-Source-Release-Date" of it & td "width=%22100%25%22" of values of headers "Subject" of it ) of relevant fixlets whose (not exists header "X-Fixlet-Type" of it or value of header "X-Fixlet-Type" of it = "Fixlet") of site "http://sync.bigfix.com/cgi-bin/bfgather/bessecurity") else (html "<tr><td class=%22name noWordWrap%22>!</td><td width=%22100%25%22>This computer does not subscribe to Patches for Windows</td></tr>") ?> -->
+			<?Relevance if (exists site "http://sync.bigfix.com/cgi-bin/bfgather/bessecurity") then (html "<tr><td class='name noWordWrap'><p><b>ID</b></p></td><td class='name noWordWrap'><p><b>Severity</b></p></td><td class='name noWordWrap'><p><b>Release Date</b></p></td><td width='100%25' class=''><p><b>Security Hotfix</b></p></td></tr>" & concatenation of trs of (td "class=%22name noWordWrap%22" of values of headers "X-Fixlet-Source-ID" of it & td "class=%22name noWordWrap%22" of values of headers "X-Fixlet-Source-Severity" of it &  (if (value of headers "X-Fixlet-Source-Release-Date" of it contains "Unspecified") then (td "class=%22name noWordWrap%22" of "<Unspecified>") else (td "class=%22name noWordWrap%22" of (last 4 of it & "-" & month (last 3 of first 6 of it) as two digits & "-" & first 2 of it) of value of headers "X-Fixlet-Source-Release-Date" of it)) & td "width=%22100%25%22" of values of headers "Subject" of it ) of relevant fixlets whose (not exists header "X-Fixlet-Type" of it or value of header "X-Fixlet-Type" of it = "Fixlet") of site "http://sync.bigfix.com/cgi-bin/bfgather/bessecurity") else (html "<tr><td class=%22name noWordWrap%22>!</td><td width=%22100%25%22>This computer does not subscribe to Patches for Windows</td></tr>") ?>
+			
+			</table>
+		</div>
+		</div>
+		</div>
+	</div>
+	
+	<div class='section' id='StatusSection' style=''>
+		<h2 class='sectionHeader'><img alt="" class='collapse' src='collapse.gif' onclick='ToggleSectionVisibility()'>Security Policy Manager <font size="1">(<?Relevance if (exists site "http://sync.bigfix.com/cgi-bin/bfgather/securitypolicymanager") then (((it as string & (if (it=1) then " item" else " items")) as html) of number of relevant fixlets whose (not exists header "X-Fixlet-Type" of it or value of header "X-Fixlet-Type" of it = "Fixlet") of site "http://sync.bigfix.com/cgi-bin/bfgather/securitypolicymanager") else (html "<font size=1>Not subscribed</font>") ?>)</font></h2>
+		<div class='sectionBody'>
+			<div class='sectionContents' id='Status' style=''>
+			<div class='subsection'>			
+			<h4>BigFix detects common Windows vulnerabilities. These are not necessarily issues requiring security patches. However, their presence makes a computer system more susceptible to external security exploits.</h4><br>
+			<table id="statustable" class="sortable" cellspacing='1px' align="center">
+			<?Relevance if (exists site "http://sync.bigfix.com/cgi-bin/bfgather/securitypolicymanager") then (html "<tr><td class='name noWordWrap'><p><b>Category</b></p></td><td width='100%25' class=''><p><b>Security Issue</b></p></td></tr>" & concatenation of trs of (td "class=%22name noWordWrap%22" of values of headers "X-Fixlet-Category" of it & td "width=%22100%25%22" of values of headers "Subject" of it ) of relevant fixlets whose (not exists header "X-Fixlet-Type" of it or value of header "X-Fixlet-Type" of it = "Fixlet") of site "http://sync.bigfix.com/cgi-bin/bfgather/securitypolicymanager") else  (html "<tr><td class='name noWordWrap'>!</td><td width='100%25'>This computer does not subscribe to Security Policy Manager</td></tr>") ?>
+			</table>
+			</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class='section' id='StatusSection' style=''>
+		<h2 class='sectionHeader'><img alt="" class='collapse' src='collapse.gif' onclick='ToggleSectionVisibility()'>Updates for Common Windows Applications  <font size="1">(<?Relevance if (exists site "http://sync.bigfix.com/cgi-bin/bfgather/updateswindowsapps") then (((it as string & (if (it=1) then " item" else " items")) as html) of number of relevant fixlets whose (not exists header "X-Fixlet-Type" of it or value of header "X-Fixlet-Type" of it = "Fixlet") of site "http://sync.bigfix.com/cgi-bin/bfgather/updateswindowsapps") else (html "<font size=1>Not subscribed</font>") ?>)</font></h2>
+		<div class='sectionBody'>
+			<div class='sectionContents' id='Status' style=''>
+			<div class='subsection'>
+			<h4>As companies have become more adept at patching Windows operating system, attackers are now also focusing on 3rd party Windows applications including Adobe Acrobat, Sun Java Runtime Environment, and others. Older versions of common Windows applications often contain publicly known vulnerabilities that can be exploited. The following list shows the outdated Windows applications on this computer.</h4>
+				<table id="statustable" class="sortable" cellspacing='1px' align="center">
+ 				<?Relevance if (exists site "http://sync.bigfix.com/cgi-bin/bfgather/updateswindowsapps") then (html "<tr><td class='name noWordWrap'><p><b>Category</b></p></td><td class='name noWordWrap'><p><b>Severity</b></p></td><td class='name noWordWrap'><p><b>Release Date</b></p></td><td width='100%25' class=''><p><b>Name of Update</b></p></td></tr>" & concatenation of trs of (td "class=%22name noWordWrap%22" of values of headers "X-Fixlet-Category" of it & td "class=%22name noWordWrap%22" of values of headers "X-Fixlet-Source-Severity" of it & (if (value of headers "X-Fixlet-Source-Release-Date" of it != "<Unspecified>") then (td "class=%22name noWordWrap%22" of (last 4 of it & "-" & month (last 3 of first 6 of it) as two digits & "-" & first 2 of it) of value of headers "X-Fixlet-Source-Release-Date" of it) else (td "class=%22name noWordWrap%22" of "<Unspecified>")) & td "width=%22100%25%22" of values of headers "Subject" of it ) of relevant fixlets whose (not exists header "X-Fixlet-Type" of it or value of header "X-Fixlet-Type" of it = "Fixlet") of site "http://sync.bigfix.com/cgi-bin/bfgather/updateswindowsapps") else (html "<tr><td class='name noWordWrap'>!</td><td width='100%25'>This computer does not subscribe to Update for Windows Applications</td></tr>") ?>
+				</table>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class='section' id='StatusSection' style=''>
+		<h2 class='sectionHeader'><img alt="" class='collapse' src='collapse.gif' onclick='ToggleSectionVisibility()'>Service Desk Request Form <font size="1"></font></h2>
+		<div class='sectionBody'>
+
+			<div class='sectionContents' id='Status' style=''>
+			<div class='subsection'>
+			<h1>Something Wrong? Talk to PaPa...</h1>
+			<h4>(Submit a Service Ticket)</h4><br/>
+			<table id="statustable" class="sortable" cellspacing='1px' align="center">
+				<div>
+					<b>Describe Your Problem: </b>
+					<div class="indented">
+						<INPUT id="problem_description" width='20%' height='50px'/>
+						<BUTTON id="ButtonLookup" class="buttonStyle" type="button" onclick="postActionViaBfRest()">Submit</BUTTON>
+						<span class="optionSpan"></span>
+					</div>
+				</div>
+			</table>
+			<div id="xmlRpcResult"></div>
+			</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

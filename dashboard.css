@@ -1,0 +1,332 @@
+﻿/*General Content*/
+
+*
+	{
+	margin: 0;
+	}
+
+/*Headers*/
+
+.header 
+	{
+	color: #ffffff;
+	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
+	background-repeat: no-repeat;
+	background-color: #3F547F;
+	width: 100%;
+	height: 50px;
+	margin-bottom: 24px;
+	padding: 12px; 
+	}
+
+.techheader 
+	{
+	color: #ffffff;
+	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
+	background-repeat: no-repeat;
+	background-color: #A31E39;
+	width: 100%;
+	height: 50px;
+	margin-bottom: 24px;
+	padding: 12px; 
+	}
+
+body
+	{
+	margin: 0 0 24px;
+	background-color: #EEEEE7;
+	font-size: 13px;
+	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
+	background-repeat: no-repeat;
+	padding: 0;
+	}
+
+h1 
+	{
+	font-size: 21px; 
+	}
+
+h3, .fixletName 
+	{
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 4px; 
+	}
+
+h4 
+	{
+	font-size: 11px;
+	font-weight: normal;
+	padding-bottom: 4px; 
+	}
+
+/*General Content Formatting*/
+
+p 
+	{
+	font-size: 13px;
+	margin-bottom: 4px; 
+	}
+
+.indent
+	{
+	position: relative;
+	left: 20px; 
+	margin-right: 20px; 
+	}
+
+.tableIndent .indent, .tableIndent .subsection
+	/* For instances where a subsection within a section can collapse */
+	{
+	position: static;
+	padding-left: 40px; 
+	}
+
+blockquote
+	{
+	margin: 4px 3em 4px 1.5em;
+	padding: 4px 4px 4px 16px;
+	border-left: 4px solid #316491;
+	border-top-style: none;
+	border-top-width: 0;
+	border-right-style: none;
+	border-right-width: 0;
+	border-bottom-style: none;
+	border-bottom-width: 0; 
+	}
+
+table.inner
+	{
+	font-size: 8px;
+	width: 100%;
+	}
+
+table.inner td
+	{
+	padding: 5px 20px 1px 5px;
+	border-bottom: 1px solid #cccccc;
+	white-space: nowrap;
+	background-color: #ffffff;
+	width: 100%;
+	}
+
+table.inner td.lastrow
+	{
+	padding: 5px 15px 1px 5px;
+	border-bottom:  0px;
+	white-space: nowrap;
+	background-color: #ffffff;
+	}
+
+table 
+	{
+	font-size: 13px;
+	max-width: 100%; 
+	}
+
+td 
+	{
+	padding: 6px 12px; 
+	}
+
+td p 
+	{
+	margin-top:    0;
+	margin-bottom: 0; 
+	}
+
+li 
+	{
+	margin: 0;
+	padding: 0;
+	list-style-type: none; 
+	}
+
+ul ul 
+	/* For generating a heirarchial layout in certain Sections */
+	{
+	margin: 0 0 0 1.5em;
+	padding: 0; 
+	}
+
+ul 
+	{
+	margin: 0;
+	padding: 0; 
+	}
+
+.hr
+	/* Generates an artificial <hr> horizontal rule */
+	{
+	font-size: 1px;
+	line-height: 1px;
+	background-color: #bfc5cd;
+	height: 1px; 
+	}
+
+.alignRight 
+	{
+	text-align: right; 
+	}
+
+.name 
+	{
+	color: #316491;
+	font-size: 14px; 
+	font-weight: bold;
+	}
+
+.noWordWrap
+	{
+	white-space:nowrap;
+	}
+	
+/*Links*/
+
+a, a:link, a:active 
+	{
+	/* color: #5386b3; */
+	color: #316491;
+	font-weight: bold;
+	text-decoration: none;
+	}
+
+a.refresh 
+	{
+	color: #ffff99;
+	font-weight: bold;
+	text-decoration: none;
+	}
+
+a:hover 
+	{
+	/* color: #519ddf; */
+	/* Orange */
+	color: #ff9933;
+	font-weight: bold;
+	}
+
+/*Section Formatting*/
+
+.section 
+	/* Holds the sectionHeader, sectionBody and sectionContents */
+	{
+	background-color: #485C5A;
+	background-repeat: repeat-x;
+	width: 100%;
+	margin: 0 24px 24px 36px;
+	border: solid 2px #485C5A;
+	}
+
+.collapse
+	/* Places the Section expand/collapse icon outside of the section */
+	{
+	position: relative;
+	left: -35px;
+	float: left;
+	clear: right;
+	margin-right: -15px;
+	cursor: pointer;
+	}
+
+.sectionHeader
+	{
+	margin: 0;
+	padding: 5px 6px 7px;
+	color: #fff;
+	font: bold 13px / 14px Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
+	background-color: #485C5A;
+	background-repeat: repeat-x;
+	background-position: 0 0;
+	border-style: none;
+	display: block;
+	}
+
+.sectionHeader a
+	{
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+	margin: 2px;
+	padding-bottom: 1px;
+	border-bottom: 1px solid #fff; 
+	}
+
+.sectionHeader a:link
+	{
+	text-decoration: none;
+	}
+
+.sectionHeader a:hover
+	{
+	color: #fff;
+	text-decoration: none;
+	border-bottom: 1px solid #94badc;
+	}
+
+.sectionHeader a:active
+	{
+	color:  #fff;
+	text-decoration: none;
+	border-bottom: 1px solid #94badc;
+	}
+
+.sectionBody
+	{
+	padding: 0; /* we don't want to double up this border */
+	}
+
+.sectionContents
+	{
+	/* background-color: #f2f2f2; */
+	background-color: #fefefe;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	border-style: none;
+	}
+
+.subsection
+	{
+	position: relative;
+	padding: 6px 12px;
+	}
+
+/*Action Status Formatting*/
+
+.statustable td, .downloadtable td
+	{
+	font-size: 13px;
+	background-color: #ffffff;
+	padding: 6px 12px;
+	border-bottom: 1px none #a4b7d3; 
+	vertical-align: top
+	}
+	
+.sortable td
+	{
+	font-size: 13px;
+	background-color: #fff;
+	padding: 6px 12px;
+	border-bottom: 1px none #a4b7d3; 
+	vertical-align: top
+	}
+
+.downloadDetailsTable td
+	{
+	padding: 0px 3px;
+	}
+
+.statustable, .downloadtable
+	{
+	font-size: 13px;
+	background-color: #d2dbe8;
+	border: solid 1px #485C5A;
+	}
+
+.sortable
+	{
+	font-size: 13px;
+	background-color: #d2dbe8;
+	border: solid 1px #485C5A;
+	}
+
