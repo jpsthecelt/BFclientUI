@@ -5,4 +5,6 @@ These are experiments & lessons about how to create custom display pages accessi
 These are 'as is' and unsupported, although you can probably post general questions to http://forum.bigfix.com
 
 Note that the sha1 checksum in the .bes file must match the __UISupport.tmp file, and must be placed in the 
-Server directory: c:\Program Files (x86)\BigFix Enterprise\BES Server\Uploads\<checksum>\__UISupport.tmp
+Server directory: C:\Program Files (x86)\BigFix Enterprise\BES Server\wwwrootbes\Uploads\<sha1>\__UISupport.tmp
+
+[there's a sha1 tool that will calculate this checksum using 'sha1 -r <file>'. Tool is available from support.bigfix.com utilities]
